@@ -3,7 +3,7 @@ import { PromptBlocks } from './components/PromptBlocks';
 import { ResultSlider } from './components/ResultSlider';
 import { usePromptQueue } from './hooks/usePromptQueue';
 import { PromptPayload, PromptResponse } from './types';
-import './App.css';
+import 'index.css';
 
 function App() {
   const [result, setResult] = useState<PromptResponse | null>(null);

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { PromptBlocks } from './components/PromptBlocks';
-import { ResultSlider } from './components/ResultSlider';
-import { usePromptQueue } from './hooks/usePromptQueue';
+import { PromptBlocks } from './components/PromptBlocks/index.tsx';
+import { ResultSlider } from './components/ResultSlider/index.tsx';
+import { usePromptQueue } from './hooks/usePromptQueue.ts';
+import { useDebounce } from './hooks/useDebounce.ts';
 import { PromptPayload, PromptResponse } from './types';
 import './index.css';
 

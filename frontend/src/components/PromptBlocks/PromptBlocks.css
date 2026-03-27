@@ -1,0 +1,118 @@
+/* PromptBlocks.css */
+
+.prompt-blocks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.core-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prompt-block {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #3b82f6; /* Viền trái dày màu xanh dương */
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.prompt-block:hover {
+  border-left-color: #2563eb; /* Nổi bật viền khi hover */
+  border-color: #d1d5db;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Bóng đổ nổi bật */
+  transform: translateY(-2px); /* Hiệu ứng nổi nhẹ */
+}
+
+.block-label {
+  text-transform: uppercase; /* Viết hoa */
+  font-size: 0.75rem; /* Chữ nhỏ */
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #6b7280; /* Màu xám mờ */
+}
+
+.block-textarea {
+  width: 100%;
+  min-height: 80px;
+  border: none;
+  background-color: transparent;
+  font-size: 0.875rem;
+  color: #111827;
+  resize: vertical;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  padding: 0;
+}
+
+.block-textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Dynamic Blocks styles for consistency */
+.dynamic-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.prompt-block.compact {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+}
+
+.block-select, .block-input {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: 0.875rem;
+  color: #111827;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+}
+
+.block-select {
+  cursor: pointer;
+}
+
+.block-input::placeholder {
+  color: #9ca3af;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

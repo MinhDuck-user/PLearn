@@ -1,0 +1,69 @@
+/* TooltipLabel.css */
+
+.tooltip-label-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.html-content {
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Ensure hovered items indicate interactivity */
+.html-content .highlight {
+  cursor: help;
+  position: relative;
+}
+
+/* Requirement 5: position absolute and center alignment */
+.tooltip-popover {
+  position: absolute;
+  transform: translateX(-50%) translateY(-100%);
+  
+  /* Requirement 2: nền xám đậm, chữ trắng */
+  background-color: #1f2937;
+  color: #ffffff;
+  
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none; /* Prevents flickering if hovering over tooltip itself */
+  
+  /* Requirement 4: z-index cao */
+  z-index: 9999;
+  
+  /* Requirement 3: Fade-in animation trong 0.2s */
+  animation: tooltipFadeIn 0.2s ease-out forwards;
+  
+  /* Shadow for depth */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Requirement 2: Hình tam giác nhỏ trỏ xuống dưới */
+.tooltip-popover::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* At the very bottom of the tooltip box */
+  left: 50%;
+  transform: translateX(-50%); /* Center the triangle horizontally */
+  border-width: 5px;
+  border-style: solid;
+  /* border-color ordered: Top Right Bottom Left */
+  border-color: #1f2937 transparent transparent transparent; 
+}
+
+/* Requirement 3: 0.2s Fade-in Effect */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-90%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-100%);
+  }
+}

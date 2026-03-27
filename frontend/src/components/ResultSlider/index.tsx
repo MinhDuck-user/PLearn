@@ -1,6 +1,6 @@
 import React from 'react';
 import './ResultSlider.css';
-import { TooltipLabel } from '../TooltipLabel';
+import { TooltipLabel } from '../TooltipLabel/index.tsx';
 import { PromptResponse } from '../../types';
 
 interface ResultSliderProps {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PromptPayload, FieldType } from '../../types';
-import { useDebounce } from '../../hooks/useDebounce';
+import { useDebounce } from '../../hooks/useDebounce.ts';
 import './PromptBlocks.css';
 
 interface PromptBlocksProps {

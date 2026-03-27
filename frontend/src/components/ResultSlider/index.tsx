@@ -33,15 +33,16 @@ export const ResultSlider: React.FC<ResultSliderProps> = ({ result, loading }) =
         </div>
       </div>
 
-      <div className={`result-content-box ${showVersionB ? 'show-b' : 'show-a'}`}>
-        {/* Toggle mượt mà nhờ CSS transition opacity và transform */}
-        <div className="version-content version-a">
-           {result.versionA ? result.versionA : 'Chưa có phiên bản A trước đó.'}
-        </div>
-        
-        <div className="version-content version-b">
-           {/* Component bọc nội dung Dangerously Set Inner HTML */}
-           <TooltipLabel htmlContent={result.diffHtml || result.versionB} />
+      <div className="slider-viewport">
+        <div className={`slider-track ${showVersionB ? 'view-b' : 'view-a'}`}>
+          <div className="pane pane-a">
+             {result.versionA ? result.versionA : 'Chưa có phiên bản A trước đó.'}
+          </div>
+          
+          <div className="pane pane-b">
+             {/* Component bọc nội dung Dangerously Set Inner HTML */}
+             <TooltipLabel htmlContent={result.diffHtml || result.versionB} />
+          </div>
         </div>
       </div>
     </div>

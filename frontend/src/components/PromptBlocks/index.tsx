@@ -31,46 +31,61 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({ onPayloadChange }) =
 
   return (
     <div className="prompt-blocks-container">
-      <h3>Cấu trúc Yêu cầu (Prompt Blocks)</h3>
+      <h3 className="section-title">Cấu trúc Yêu cầu</h3>
       
       <div className="core-blocks">
-        <label>
-          Bối cảnh (Context)
-          <textarea placeholder="Nhập bối cảnh..." value={context} onChange={(e) => setContext(e.target.value)} />
-        </label>
+        <div className="prompt-block">
+          <label className="block-label">Vai trò (Role)</label>
+          <textarea 
+            className="block-textarea"
+            placeholder="Ví dụ: Chuyên gia Marketing, Lập trình viên Senior..." 
+            value={role} 
+            onChange={(e) => setRole(e.target.value)} 
+          />
+        </div>
+
+        <div className="prompt-block">
+          <label className="block-label">Bối cảnh (Context)</label>
+          <textarea 
+            className="block-textarea"
+            placeholder="Mô tả bối cảnh..." 
+            value={context} 
+            onChange={(e) => setContext(e.target.value)} 
+          />
+        </div>
         
-        <label>
-          Vai trò (Role)
-          <input type="text" placeholder="Ví dụ: Chuyên gia Marketing..." value={role} onChange={(e) => setRole(e.target.value)} />
-        </label>
-        
-        <label>
-          Nhiệm vụ (Task)
-          <textarea placeholder="Nhiệm vụ cụ thể..." value={task} onChange={(e) => setTask(e.target.value)} />
-        </label>
+        <div className="prompt-block">
+          <label className="block-label">Nhiệm vụ (Task)</label>
+          <textarea 
+            className="block-textarea"
+            placeholder="Nhiệm vụ cụ thể cần thực hiện..." 
+            value={task} 
+            onChange={(e) => setTask(e.target.value)} 
+          />
+        </div>
       </div>
 
       <div className="dynamic-blocks">
-        <label>
-          Loại Field (Field Type)
-          <select value={fieldType} onChange={(e) => setFieldType(e.target.value as FieldType)}>
+        <div className="prompt-block compact">
+          <label className="block-label">Loại Yêu cầu (Field Type)</label>
+          <select className="block-select" value={fieldType} onChange={(e) => setFieldType(e.target.value as FieldType)}>
             <option value="text">Văn bản</option>
             <option value="image">Hình ảnh</option>
           </select>
-        </label>
+        </div>
 
         {fieldType === 'text' && (
-          <label className="fade-in">
-            Giọng văn (Tone)
-            <input type="text" placeholder="Vd: Trang trọng, Quyết liệt" value={tone} onChange={(e) => setTone(e.target.value)} />
-          </label>
+          <div className="prompt-block compact fade-in">
+            <label className="block-label">Giọng văn (Tone)</label>
+            <input type="text" className="block-input" placeholder="Vd: Trang trọng, Quyết liệt" value={tone} onChange={(e) => setTone(e.target.value)} />
+          </div>
         )}
 
         {fieldType === 'image' && (
-          <label className="fade-in">
-            Ánh sáng (Lighting)
-            <input type="text" placeholder="Vd: Cinematic, Studio, Soft" value={lighting} onChange={(e) => setLighting(e.target.value)} />
-          </label>
+          <div className="prompt-block compact fade-in">
+            <label className="block-label">Ánh sáng (Lighting)</label>
+            <input type="text" className="block-input" placeholder="Vd: Cinematic, Studio, Soft" value={lighting} onChange={(e) => setLighting(e.target.value)} />
+          </div>
         )}
       </div>
     </div>

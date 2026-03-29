@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { PromptPayload, FieldType } from '../../types';
-import { useDebounce } from '../../hooks/useDebounce.ts';
+import { useDebounce } from '../../hooks/useDebounce';
 import './PromptBlocks.css';
 
 interface PromptBlocksProps {
+  initialPayload?: Partial<PromptPayload>;
   onPayloadChange: (payload: PromptPayload) => void;
 }
 
-export const PromptBlocks: React.FC<PromptBlocksProps> = ({ onPayloadChange }) => {
-  const [role, setRole] = useState('');
-  const [context, setContext] = useState('');
-  const [task, setTask] = useState('');
+export const PromptBlocks: React.FC<PromptBlocksProps> = ({ 
+  initialPayload,
+  onPayloadChange 
+}) => {
+  const [role, setRole] = useState(initialPayload?.role || '');
+  const [context, setContext] = useState(initialPayload?.context || '');
+  const [task, setTask] = useState(initialPayload?.task || '');
   const [fieldType, setFieldType] = useState<FieldType>('text');
   
   // Dynamic

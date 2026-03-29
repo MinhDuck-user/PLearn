@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { PromptBlocks } from './components/PromptBlocks/index.tsx';
-import { ResultSlider } from './components/ResultSlider/index.tsx';
-import { usePromptQueue } from './hooks/usePromptQueue.ts';
-import { useDebounce } from './hooks/useDebounce.ts';
+import { PromptBlocks } from './components/PromptBlocks';
+import { ResultSlider } from './components/ResultSlider';
+import { OnboardingFlow } from './components/OnboardingFlow';
+import { usePromptQueue } from './hooks/usePromptQueue';
 import { PromptPayload, PromptResponse } from './types';
 import './index.css';
 
 function App() {
+  const [currentStep, setCurrentStep] = useState<number>(0); // 0: Field, 1: Topic (handled in OnboardingFlow), 2: Workspace
+  const [selectedTopicData, setSelectedTopicData] = useState<Partial<PromptPayload> | null>(null);
   const [result, setResult] = useState<PromptResponse | null>(null);
+  
   const { processPayload, isProcessing } = usePromptQueue();
 
   const handlePayloadChange = async (payload: PromptPayload) => {
@@ -21,22 +24,49 @@ function App() {
     }
   };
 
+  const handleTopicSelect = (topic: any) => {
+    setSelectedTopicData({
+      role: topic.role,
+      context: topic.context,
+      task: topic.task,
+    });
+    setCurrentStep(2); // Go to Workspace
+  };
+
   return (
     <div className="app-main">
-      <header className="app-header">
-        <h1>Smart Prompt Orchestrator</h1>
-        <p>Hệ thống tự động biên dịch và phân tích mô hình kép (Dual Model AI)</p>
-      </header>
-      
-      <main className="app-container">
-        <section className="left-panel">
-          <PromptBlocks onPayloadChange={handlePayloadChange} />
-        </section>
+      {/* ONBOARDING FLOW OVERLAY */}
+      {currentStep < 2 && (
+        <OnboardingFlow onSelectTopic={handleTopicSelect} />
+      )}
+
+      {/* MAIN WORKSPACE */}
+      <div className={`workspace-wrapper ${currentStep === 2 ? 'fade-in' : 'hidden'}`}>
+        <header className="app-header">
+          <h1>Smart Prompt Orchestrator</h1>
+          <p>Hệ thống tự động biên dịch và phân tích mô hình kép (Dual Model AI)</p>
+        </header>
         
-        <section className="right-panel">
-          <ResultSlider result={result} loading={isProcessing} />
-        </section>
-      </main>
+        <main className="app-container">
+          <section className="left-panel">
+            {/* 
+              React 'key' forces unmount/remount when selectedTopicData changes,
+              wiping old state and ensuring pure data population.
+            */}
+            {currentStep === 2 && (
+              <PromptBlocks 
+                key={selectedTopicData?.task} 
+                initialPayload={selectedTopicData || {}} 
+                onPayloadChange={handlePayloadChange} 
+              />
+            )}
+          </section>
+          
+          <section className="right-panel">
+            <ResultSlider result={result} loading={isProcessing} />
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

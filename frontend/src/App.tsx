@@ -4,6 +4,7 @@ import { ResultSlider } from './components/ResultSlider';
 import { OnboardingFlow } from './components/OnboardingFlow';
 import { usePromptQueue } from './hooks/usePromptQueue';
 import { PromptPayload, PromptResponse } from './types';
+import { ArrowLeft } from 'lucide-react';
 import './index.css';
 
 function App() {
@@ -36,13 +37,16 @@ function App() {
   return (
     <div className="app-main">
       {/* ONBOARDING FLOW OVERLAY */}
-      {currentStep < 2 && (
+      <div className={currentStep === 2 ? 'hidden' : 'fade-in'}>
         <OnboardingFlow onSelectTopic={handleTopicSelect} />
-      )}
+      </div>
 
       {/* MAIN WORKSPACE */}
       <div className={`workspace-wrapper ${currentStep === 2 ? 'fade-in' : 'hidden'}`}>
-        <header className="app-header">
+        <header className="app-header relative-header">
+          <button className="back-to-topics-btn" onClick={() => setCurrentStep(1)}>
+            <ArrowLeft size={18} /> Chọn đề bài khác
+          </button>
           <h1>Smart Prompt Orchestrator</h1>
           <p>Hệ thống tự động biên dịch và phân tích mô hình kép (Dual Model AI)</p>
         </header>

@@ -15,8 +15,15 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
   const [role, setRole] = useState(initialPayload?.role || '');
   const [context, setContext] = useState(initialPayload?.context || '');
   const [task, setTask] = useState(initialPayload?.task || '');
-  const [fieldType, setFieldType] = useState<FieldType>('text');
   
+  // Use fixed fieldType or inherit from payload since we removed the selector
+  const fieldType: FieldType = initialPayload?.fieldType || 'text';
+  
+  // Placeholders
+  const [rolePlaceholder, setRolePlaceholder] = useState('(nhập vào đây)');
+  const [contextPlaceholder, setContextPlaceholder] = useState('(nhập vào đây)');
+  const [taskPlaceholder, setTaskPlaceholder] = useState('(nhập vào đây)');
+
   // Dynamic
   const [tone, setTone] = useState('');
   const [lighting, setLighting] = useState('');
@@ -42,7 +49,9 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
           <label className="block-label">Vai trò (Role)</label>
           <textarea 
             className="block-textarea"
-            placeholder="Ví dụ: Chuyên gia Marketing, Lập trình viên Senior..." 
+            placeholder={rolePlaceholder}
+            onFocus={() => setRolePlaceholder('')}
+            onBlur={() => setRolePlaceholder('(nhập vào đây)')}
             value={role} 
             onChange={(e) => setRole(e.target.value)} 
           />
@@ -52,7 +61,9 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
           <label className="block-label">Bối cảnh (Context)</label>
           <textarea 
             className="block-textarea"
-            placeholder="Mô tả bối cảnh..." 
+            placeholder={contextPlaceholder}
+            onFocus={() => setContextPlaceholder('')}
+            onBlur={() => setContextPlaceholder('(nhập vào đây)')}
             value={context} 
             onChange={(e) => setContext(e.target.value)} 
           />
@@ -62,7 +73,9 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
           <label className="block-label">Nhiệm vụ (Task)</label>
           <textarea 
             className="block-textarea"
-            placeholder="Nhiệm vụ cụ thể cần thực hiện..." 
+            placeholder={taskPlaceholder}
+            onFocus={() => setTaskPlaceholder('')}
+            onBlur={() => setTaskPlaceholder('(nhập vào đây)')}
             value={task} 
             onChange={(e) => setTask(e.target.value)} 
           />
@@ -70,14 +83,6 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
       </div>
 
       <div className="dynamic-blocks">
-        <div className="prompt-block compact">
-          <label className="block-label">Loại Yêu cầu (Field Type)</label>
-          <select className="block-select" value={fieldType} onChange={(e) => setFieldType(e.target.value as FieldType)}>
-            <option value="text">Văn bản</option>
-            <option value="image">Hình ảnh</option>
-          </select>
-        </div>
-
         {fieldType === 'text' && (
           <div className="prompt-block compact fade-in">
             <label className="block-label">Giọng văn (Tone)</label>

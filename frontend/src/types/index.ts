@@ -1,6 +1,8 @@
 export type FieldType = 'text' | 'image';
 
 export interface PromptPayload {
+  category?: string; // e.g. marketing, coding, design
+  modelMode?: 'fast' | 'pro';
   role: string;
   context: string;
   task: string;

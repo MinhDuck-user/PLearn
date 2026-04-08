@@ -1,48 +1,36 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import './ResultSlider.css';
-import { TooltipLabel } from '../TooltipLabel/index.tsx';
-import { PromptResponse } from '../../types';
+import { SmartLoading } from '../SmartLoading';
 
 interface ResultSliderProps {
-  result: PromptResponse | null;
+  result: string | null;
   loading: boolean;
+  category?: string;
 }
 
-export const ResultSlider: React.FC<ResultSliderProps> = ({ result, loading }) => {
-  const [showVersionB, setShowVersionB] = React.useState<boolean>(true);
-
-  if (loading) {
-    return <div className="loading-skeleton">Đang xử lý phân tích thông minh bằng Dual Model...</div>;
+export const ResultSlider: React.FC<ResultSliderProps> = ({ result, loading, category }) => {
+  if (loading && !result) {
+    return <SmartLoading category={category || 'general'} />;
   }
 
-  if (!result || !result.versionB) {
-    return <div className="result-placeholder">Nhập Prompt vào các Box để xem Kết quả B tối ưu từ Gemini...</div>;
+  if (!result && !loading) {
+    return <div className="result-placeholder">Nhập Prompt vào các Box và nhấn "Chạy" để xem kết quả từ AI...</div>;
   }
 
   return (
     <div className="result-slider-container">
       <div className="slider-header">
-        <h4>So sánh Kết quả (B - A Toggle)</h4>
-        <div className="switch-wrapper">
-          <span className={!showVersionB ? 'active-label' : ''}>A (Cũ)</span>
-          <label className="switch">
-            <input type="checkbox" checked={showVersionB} onChange={(e) => setShowVersionB(e.target.checked)} />
-            <span className="slider round"></span>
-          </label>
-          <span className={showVersionB ? 'active-label' : ''}>B (Mới)</span>
-        </div>
+        <h4>Kết quả AI</h4>
       </div>
 
-      <div className="slider-viewport">
-        <div className={`slider-track ${showVersionB ? 'view-b' : 'view-a'}`}>
-          <div className="pane pane-a">
-             {result.versionA ? result.versionA : 'Chưa có phiên bản A trước đó.'}
-          </div>
-          
-          <div className="pane pane-b">
-             {/* Component bọc nội dung Dangerously Set Inner HTML */}
-             <TooltipLabel htmlContent={result.diffHtml || result.versionB} />
-          </div>
+      <div className="slider-viewport view-single">
+        <div className="pane-single markdown-body fade-in">
+           <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {result || ''}
+           </ReactMarkdown>
+           {loading && <span className="typing-cursor">|</span>}
         </div>
       </div>
     </div>

@@ -1,0 +1,88 @@
+{
+  "marketing": {
+    "role": [
+      "Chuyên gia Digital Marketing",
+      "Copywriter",
+      "Social Media Manager",
+      "Brand Strategist",
+      "SEO Specialist"
+    ],
+    "context": [
+      "Công ty startup công nghệ sắp ra mắt sản phẩm",
+      "Cửa hàng bán lẻ mẹ và bé trong dịp Lễ Tết",
+      "Thương hiệu thời trang gen Z cần đẩy doanh số qua TikTok",
+      "Công ty B2B muốn tìm kiếm khách hàng doanh nghiệp"
+    ],
+    "task": [
+      "Viết bài đăng Facebook thu hút tương tác",
+      "Lên kịch bản video TikTok 60 giây",
+      "Viết email marketing chào hàng",
+      "Lên kế hoạch nội dung tuần tới"
+    ],
+    "tone": [
+      "Trang trọng, chuyên nghiệp",
+      "Hài hước, Gen Z",
+      "Thuyết phục, nhấn mạnh ưu đãi",
+      "Truyền cảm hứng, kể chuyện"
+    ]
+  },
+  "coding": {
+    "role": [
+      "Senior Full-stack Developer",
+      "Data Scientist",
+      "DevOps Engineer",
+      "Frontend Expert",
+      "Backend Architect"
+    ],
+    "context": [
+      "Hệ thống cũ đang bị thắt cổ chai hiệu suất (bottleneck)",
+      "Cần tích hợp thanh toán Stripe vào dự án Next.js",
+      "Khởi tạo dự án mới với React, Vite và TailwindCSS",
+      "Xử lý lỗi rò rỉ bộ nhớ (memory leak) trên server Node.js"
+    ],
+    "task": [
+      "Tối ưu hóa đoạn code thuật toán sau",
+      "Viết unit tests cho function",
+      "Phân tích nguyên nhân lỗi và đưa ra giải pháp sửa",
+      "Giải thích kiến trúc hệ thống và cách chia component"
+    ],
+    "tone": [
+      "Ngắn gọn, đi thẳng vào mã nguồn",
+      "Giải thích chi tiết từng dòng code",
+      "Focus vào hiệu năng và độ phức tạp",
+      "Hướng dẫn từng bước (Step-by-step)"
+    ]
+  },
+  "design": {
+    "role": [
+      "UI/UX Designer",
+      "Art Director",
+      "Illustrator",
+      "Product Designer"
+    ],
+    "context": [
+      "Thiết kế landing page cho một ứng dụng AI",
+      "Làm lại giao diện dashboard cho hệ thống CRM",
+      "Tạo banner quảng cáo Google Ads",
+      "Vẽ minh họa phong cách flat design cho blog"
+    ],
+    "task": [
+      "Gợi ý bảng màu (color palette) và typography",
+      "Viết mô tả prompt (Image prompt) để gửi cho Midjourney",
+      "Phân tích luồng UX flow để người dùng đăng ký dễ dàng hơn",
+      "Tạo ra các ý tưởng wireframe"
+    ],
+    "tone": [
+      "Trực quan, tập trung vào UX",
+      "Nghệ thuật, chú trọng mỹ thuật",
+      "Sáng tạo và đột phá",
+      "Thực dụng, dễ thiết kế"
+    ],
+    "lighting": [
+      "Cinematic lighting",
+      "Studio lighting, soft light",
+      "Neon cyberpunk glow",
+      "Natural sunlight, golden hour"
+    ]
+  }
+}

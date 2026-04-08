@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PromptPayload, FieldType } from '../../types';
-import { ExportPromptButton } from '../ExportPromptButton';
 import taxonomyData from '../../data/taxonomy.json';
 import './PromptBlocks.css';
-import { Play } from 'lucide-react';
+import { Play, Download } from 'lucide-react';
 
 interface PromptBlocksProps {
   initialPayload?: Partial<PromptPayload>;
   onRunMode: (payload: PromptPayload, mode: 'fast' | 'pro') => void;
+  onKeywordToPrompt: (rawPromptText: string) => void;
 }
 
 type TaxonomyData = typeof taxonomyData;
@@ -114,7 +114,12 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
     <div className="prompt-blocks-container">
       <div className="blocks-header">
         <h3 className="section-title">Cấu trúc Yêu cầu</h3>
-        <ExportPromptButton promptText={getRawPromptString()} />
+        <button 
+          className="export-btn" 
+          onClick={() => onKeywordToPrompt(getRawPromptString())}
+        >
+          <Download size={16} /> Keyword to Prompt
+        </button>
       </div>
       
       <div className="core-blocks">

@@ -52,6 +52,11 @@ function App() {
     }
   };
 
+  const handleKeywordToPrompt = (rawPromptText: string) => {
+    setIsProcessing(false);
+    setResultText(`### 📋 Raw Prompt\n\n\`\`\`text\n${rawPromptText}\n\`\`\`\n\n*Bạn có thể [Copy] đoạn text trên để sử dụng ở nền tảng AI khác.*`);
+  };
+
   return (
     <div className="app-main">
       {/* ONBOARDING FLOW OVERLAY */}
@@ -76,6 +81,7 @@ function App() {
                 key={`${selectedTopicData?.category}-${selectedTopicData?.task}`} 
                 initialPayload={selectedTopicData || {}} 
                 onRunMode={handleRunTask} 
+                onKeywordToPrompt={handleKeywordToPrompt}
               />
             )}
           </section>

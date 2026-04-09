@@ -53,7 +53,18 @@ export async function fetchPromptStream(
     
     // Create a markdown response based on payload
     if (payload.category === 'marketing') {
-      mockResult = `## Chiến dịch Marketing: ${payload.task}
+      mockResult = `<scratchpad>
+**Lộ trình tư duy (Roadmap):**
+1. Phân tích bối cảnh: ${payload.context}
+2. Tone yêu cầu: ${payload.tone}
+3. Triển khai viết Copywriting Marketing.
+
+**Soi xét (Reflection):**
+- Đã check tone: Hợp lệ.
+- Độ dài: Ngắn gọn, súc tích.
+</scratchpad>
+      
+## Chiến dịch Marketing: ${payload.task}
       
 **Vai trò:** ${payload.role}
 **Bối cảnh:** ${payload.context}

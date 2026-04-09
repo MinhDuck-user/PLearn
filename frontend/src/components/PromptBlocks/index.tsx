@@ -54,7 +54,7 @@ export const PromptBlocks: React.FC<PromptBlocksProps> = ({
         if (categoryData[blockName]) {
           setSuggestions(categoryData[blockName]);
         }
-      }, 5000);
+      }, 1500);
     }
   };
 

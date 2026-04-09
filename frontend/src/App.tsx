@@ -88,7 +88,7 @@ function App() {
           
           <section className="right-panel">
             <ResultSlider 
-              result={resultText} 
+              result={resultText ? resultText.replace(/<scratchpad>[\s\S]*?(<\/scratchpad>|$)/g, '').trim() : null} 
               loading={isProcessing} 
               category={selectedTopicData?.category} 
             />

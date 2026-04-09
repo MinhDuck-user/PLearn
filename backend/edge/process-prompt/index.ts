@@ -27,15 +27,15 @@ serve(async (req) => {
       throw new Error("Missing GEMINI_API_KEY environment variable");
     }
 
-    // Nối raw payload thành văn bản user prompt
+    // Nối raw payload sử dụng cấu trúc Bọc Kép (Double-Framing XML Tags)
     const parts = [];
-    if (payload.role) parts.push(`Role: ${payload.role}`);
-    if (payload.context) parts.push(`Context: ${payload.context}`);
-    if (payload.task) parts.push(`Task: ${payload.task}`);
-    if (payload.tone) parts.push(`Tone: ${payload.tone}`);
-    if (payload.lighting) parts.push(`Lighting: ${payload.lighting}`);
+    if (payload.role) parts.push(`<role>\nRole: ${payload.role}\n</role>`);
+    if (payload.context) parts.push(`<context>\nContext: ${payload.context}\n</context>`);
+    if (payload.task) parts.push(`<task>\nTask: ${payload.task}\n</task>`);
+    if (payload.tone) parts.push(`<tone>\nTone: ${payload.tone}\n</tone>`);
+    if (payload.lighting) parts.push(`<lighting>\nLighting: ${payload.lighting}\n</lighting>`);
     
-    const userPrompt = parts.join('\n');
+    const userPrompt = parts.join('\n\n');
 
     // Gọi lên Google Gemini API với tham số `stream`
     const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/${GEMINI_MODEL}:streamGenerateContent?key=${apiKey}`;
@@ -70,21 +70,70 @@ serve(async (req) => {
       const reader = response.body?.getReader();
       const decoder = new TextDecoder("utf-8");
       const encoder = new TextEncoder();
+      
+      let buffer = "";
 
       try {
         while (reader) {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunkText = decoder.decode(value);
-          // Parsing Server-Sent Events from Gemini
-          // Mẫu kết quả của Gemini stream là chuỗi JSON array bắt đầu với [ và kết thúc với ] phẩy phẩy
-          // Trong môi trường React client, ta gửi dồn chunk text thuần
+          buffer += decoder.decode(value, { stream: true });
           
-          await writer.write(encoder.encode(chunkText));
+          // Trích xuất JSON Object bằng cơ chế quét ngoặc an toàn (Bỏ qua ký hiệu `[`, `,`)
+          let startIdx = buffer.indexOf('{');
+          
+          while (startIdx !== -1) {
+            let possibleEndIdx = -1;
+            let braces = 0;
+            let inString = false;
+            let escape = false;
+
+            // Quét tìm điểm kết thúc cấu trúc Object `{ ... }`
+            for (let i = startIdx; i < buffer.length; i++) {
+              const char = buffer[i];
+              if (escape) { escape = false; continue; }
+              if (char === '\\') { escape = true; continue; }
+              if (char === '"') { inString = !inString; continue; }
+              
+              if (!inString) {
+                if (char === '{') braces++;
+                if (char === '}') {
+                  braces--;
+                  if (braces === 0) {
+                    possibleEndIdx = i + 1;
+                    break;
+                  }
+                }
+              }
+            }
+
+            if (possibleEndIdx !== -1) {
+              const potentialJson = buffer.substring(startIdx, possibleEndIdx);
+              try {
+                const jsonObj = JSON.parse(potentialJson); // Gọi V8 Native đảm bảo độ an toàn chuỗi
+                const textChunk = jsonObj?.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (textChunk) {
+                  // Chỉ đẩy văn bản trơn về client
+                  await writer.write(encoder.encode(textChunk));
+                }
+                
+                // Cắt buffer đã xử lý thành công
+                buffer = buffer.substring(possibleEndIdx);
+                startIdx = buffer.indexOf('{');
+              } catch (e) {
+                // Lỗi bất ngờ khi parse, nhảy sang bracket tiếp theo
+                startIdx = buffer.indexOf('{', startIdx + 1);
+              }
+            } else {
+              break; // Buffer bị ngắt ở giữa object JSON => Đợi chunk vòng lặp tới
+            }
+          }
         }
       } catch (err) {
         console.error("Stream execution error:", err);
+        await writer.write(encoder.encode(`\n\n[Hệ thống AI gián đoạn (Stream Error): ${err.message}]`));
       } finally {
         writer.close();
       }
